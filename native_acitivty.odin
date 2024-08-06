@@ -1,7 +1,43 @@
 //+build android
 package android
 
-import "core:c"
+foreign import android "system:android"
+
+/**
+* Flags for ANativeActivity_showSoftInput see the Java InputMethodManager
+* API for documentation.
+*/
+ShowSoftInputFlags :: enum u32 {
+	/**
+	* Implicit request to show the input window, not as the result
+	* of a direct request by the user.
+	*/
+	IMPLICIT = 0x0001,
+
+	/**
+	* The user has forced the input method open (such as by
+	* long-pressing menu) so it should not be closed until they
+	* explicitly do so.
+	*/
+	FORCED = 0x0002,
+}
+
+/**
+* Flags for ANativeActivity_hideSoftInput see the Java InputMethodManager
+* API for documentation.
+*/
+HideSoftInputFlags :: enum {
+	/**
+	* The soft input window should only be hidden if it was not
+	* explicitly shown by the user.
+	*/
+	IMPLICIT_ONLY = 0x0001,
+	/**
+	* The soft input window should normally be hidden, unless it was
+	* originally shown with {@link ANATIVEACTIVITY_SHOW_SOFT_INPUT_FORCED}.
+	*/
+	NOT_ALWAYS = 0x0002,
+}
 
 /**
  * This structure defines the native side of an android.app.NativeActivity.
@@ -54,7 +90,7 @@ ANativeActivity :: struct {
     /**
      * The platform's SDK version code.
      */
-    sdkVersion: c.int32_t,
+    sdkVersion: i32,
 
     /**
      * This is the native instance of the application.  It is not used by
@@ -105,7 +141,7 @@ ANativeActivityCallbacks :: struct {
      * saved state will be persisted, so it can not contain any active
      * entities (pointers to memory, file descriptors, etc).
      */
-    onSaveInstanceState: #type proc "c" (activity: ^ANativeActivity, outSize: ^c.size_t) -> rawptr,
+    onSaveInstanceState: #type proc "c" (activity: ^ANativeActivity, outSize: ^uint) -> rawptr,
 
     /**
      * NativeActivity has paused.  See Java documentation for Activity.onPause()
@@ -129,7 +165,7 @@ ANativeActivityCallbacks :: struct {
      * Focus has changed in this NativeActivity's window.  This is often used,
      * for example, to pause a game when it loses input focus.
      */
-    onWindowFocusChanged: #type proc "c" (activity: ^ANativeActivity, hasFocus: c.int),
+    onWindowFocusChanged: #type proc "c" (activity: ^ANativeActivity, hasFocus: i32),
 
     /**
      * The drawing window for this native activity has been created.  You
@@ -192,5 +228,60 @@ ANativeActivityCallbacks :: struct {
      * important processes.
      */
     onLowMemory: #type proc "c" (activity: ^ANativeActivity),
+}
+
+/**
+ * This is the function that must be in the native code to instantiate the
+ * application's native activity.  It is called with the activity instance (see
+ * above); if the code is being instantiated from a previously saved instance,
+ * the savedState will be non-NULL and point to the saved data.  You must make
+ * any copy of this data you need -- it will be released after you return from
+ * this function.
+ */
+ANativeActivity_createFunc :: #type proc "c" (activity: ^ANativeActivity, savedState: rawptr, savedStateSize: uint)
+
+
+foreign android {
+	/**
+	 * Finish the given activity.  Its finish() method will be called, causing it
+	 * to be stopped and destroyed.  Note that this method can be called from
+	 * *any* thread it will send a message to the main thread of the process
+	 * where the Java finish call will take place.
+	 */
+	ANativeActivity_finish :: proc(activity: ^ANativeActivity) ---
+
+	/**
+	* Change the window format of the given activity.  Calls getWindow().setFormat()
+	* of the given activity.  Note that this method can be called from
+	* *any* thread it will send a message to the main thread of the process
+	* where the Java finish call will take place.
+	*/
+	// TODO: wtf is format here ?? is there an enum or constants for this proc?
+	// I think this might be AHardwareBuffer_Format, but annoyingly so, it's u32 while this proc requires i32.
+	ANativeActivity_setWindowFormat :: proc(activity: ^ANativeActivity, format: i32) ---
+
+	/**
+	* Change the window flags of the given activity.  Calls getWindow().setFlags()
+	* of the given activity.  Note that this method can be called from
+	* *any* thread it will send a message to the main thread of the process
+	* where the Java finish call will take place.  See window.h for flag constants.
+	*/
+	ANativeActivity_setWindowFlags :: proc(activity: ^ANativeActivity, addFlags: WindowFlags, removeFlags: WindowFlags) ---
+
+	/**
+	* Show the IME while in the given activity.  Calls InputMethodManager.showSoftInput()
+	* for the given activity.  Note that this method can be called from
+	* *any* thread it will send a message to the main thread of the process
+	* where the Java finish call will take place.
+	*/
+	ANativeActivity_showSoftInput :: proc(activity: ^ANativeActivity, flags: ShowSoftInputFlags) ---
+
+	/**
+	* Hide the IME while in the given activity.  Calls InputMethodManager.hideSoftInput()
+	* for the given activity.  Note that this method can be called from
+	* *any* thread it will send a message to the main thread of the process
+	* where the Java finish call will take place.
+	*/
+	ANativeActivity_hideSoftInput :: proc(activity: ^ANativeActivity, flags: HideSoftInputFlags) ---
 }
 

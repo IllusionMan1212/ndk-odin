@@ -1,5 +1,9 @@
 package android
 
+//
+// Based on NDK r26b (26.1.10909125)
+//
+
 // Apparently the app still needs to have a manifest, it also MUST use the nativeactivity activity.
 // Apparently the native code MUST be built as a shared library and then loaded by the JNI(?)
 // Good ref: https://github.com/xlab/android-go/blob/master/examples/build-android.sh
