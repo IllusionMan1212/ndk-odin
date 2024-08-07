@@ -5,15 +5,15 @@ package android
  * Legacy window pixel format names, kept for backwards compatibility.
  * New code and APIs should use AHARDWAREBUFFER_FORMAT_*.
  */
-ANativeWindow_LegacyFormat :: enum {
+ANativeWindow_LegacyFormat :: enum u32 {
     // NOTE: these values must match the values from graphics/common/x.x/types.hal
 
     /** Red: 8 bits, Green: 8 bits, Blue: 8 bits, Alpha: 8 bits. **/
-    RGBA_8888          = AHardwareBuffer_Format.R8G8B8A8_UNORM,
+    RGBA_8888          = u32(AHardwareBuffer_Format.R8G8B8A8_UNORM),
     /** Red: 8 bits, Green: 8 bits, Blue: 8 bits, Unused: 8 bits. **/
-    RGBX_8888          = AHardwareBuffer_Format.R8G8B8X8_UNORM,
+    RGBX_8888          = u32(AHardwareBuffer_Format.R8G8B8X8_UNORM),
     /** Red: 5 bits, Green: 6 bits, Blue: 5 bits. **/
-    RGB_565            = AHardwareBuffer_Format.R5G6B5_UNORM,
+    RGB_565            = u32(AHardwareBuffer_Format.R5G6B5_UNORM),
 }
 
 /**
@@ -93,8 +93,7 @@ ANativeWindow_Buffer :: struct {
     stride: i32,
 
     /// The format of the buffer. One of AHardwareBuffer_Format.
-	// TODO: u32/i32 mismatch with the enum.
-    int32_t format,
+    format: AHardwareBuffer_Format,
 
     /// The actual bits.
     bits: rawptr,
@@ -136,8 +135,7 @@ foreign android {
 	*
 	* \return a negative value on error.
 	*/
-	// TODO: should return AHardwarebuffer_Format but i32/u32 mismatch
-	ANativeWindow_getFormat :: proc(window: ^ANativeWindow) -> i32 ---
+	ANativeWindow_getFormat :: proc(window: ^ANativeWindow) -> AHardwareBuffer_Format ---
 
 	/**
 	* Change the format and size of the window buffers.

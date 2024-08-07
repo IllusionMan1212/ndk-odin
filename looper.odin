@@ -12,7 +12,7 @@ foreign import android "system:android"
 * MUST check the return from these functions to discover when
 * data is available on such fds and process it.
 */
-ALOOPER_PREPARE_ALLOW_NON_CALLBACKS = 1<<0
+ALOOPER_PREPARE_ALLOW_NON_CALLBACKS :: 1<<0
 
 /** Result from ALooper_pollOnce() and ALooper_pollAll(). */
 ALooperPollResult :: enum i32 {
@@ -39,11 +39,6 @@ ALooperPollResult :: enum i32 {
      * An error occurred.
      */
     ERROR = -4,
-}
-
-PollResultOrIdent :: union {
-	ALooperPollResult,
-	i32,
 }
 
 /**
@@ -174,14 +169,14 @@ foreign android {
 	* This method does not return until it has finished invoking the appropriate callbacks
 	* for all file descriptors that were signalled.
 	*/
-	ALooper_pollOnce :: proc(timeoutMillis: i32, outFd: ^i32, outEvents: ^i32, outData: ^rawptr) -> PollResultOrIdent ---
+	ALooper_pollOnce :: proc(timeoutMillis: i32, outFd: ^i32, outEvents: ^i32, outData: ^rawptr) -> i32 ---
 
 	/**
 	 * Like ALooper_pollOnce(), but performs all pending callbacks until all
 	 * data has been consumed or a file descriptor is available with no callback.
 	 * This function will never return ALOOPER_POLL_CALLBACK.
 	 */
-	ALooper_pollAll :: proc(timeoutMillis: i32, outFd: ^i32, outEvents: ^i32, outData: ^rawptr) -> PollResultOrIdent ---
+	ALooper_pollAll :: proc(timeoutMillis: i32, outFd: ^i32, outEvents: ^i32, outData: ^rawptr) -> i32 ---
 
 	/**
 	* Wakes the poll asynchronously.

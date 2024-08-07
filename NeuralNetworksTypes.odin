@@ -22,7 +22,7 @@ ANEURALNETWORKS_BYTE_SIZE_OF_CACHE_TOKEN :: 32
  * Aliasing to {@link OperationCode}, used in function
  * {@link ANeuralNetworksModel_addOperation}.
  */
-ANeuralNetworksOperationType :: i32
+ANeuralNetworksOperationType :: OperationCode
 
 /**
  * Operand types.
@@ -186,7 +186,7 @@ OperandCode :: enum i32 {
  *
  * Available since NNAPI feature level 1.
  */
-OperationCode :: enum {
+OperationCode :: enum i32 {
     // Operations below are available since NNAPI feature level 1.
 
     /**
@@ -5871,7 +5871,7 @@ PaddingCode :: enum {
  *
  * Available since NNAPI feature level 1.
  */
-PreferenceCode :: enum {
+PreferenceCode :: enum i32 {
     /**
      * Prefer executing in a way that minimizes battery drain.
      * This is desirable for compilations that will be executed often.
@@ -5894,7 +5894,7 @@ PreferenceCode :: enum {
  *
  * The type of NNAPI device.
  */
-DeviceTypeCode :: enum {
+DeviceTypeCode :: enum i32 {
     /** The device type cannot be provided. */
     UNKNOWN = 0,
     /** The device does not fall into any category below. */
@@ -5923,7 +5923,7 @@ DeviceTypeCode :: enum {
  * {@link ANeuralNetworks_getRuntimeFeatureLevel} must be compared against
  * these enum values instead of the Android API level.
  */
-FeatureLevelCode :: enum {
+FeatureLevelCode :: enum i64 {
     /** NNAPI specification available in Android O-MR1, Android NNAPI feature level 1 */
     LEVEL_1 = 27,
     /** NNAPI specification available in Android P, Android NNAPI feature level 2 */
@@ -5959,7 +5959,7 @@ FeatureLevelCode :: enum {
  *
  * Available since NNAPI feature level 1.
  */
-NNResultCode :: enum {
+NNResultCode :: enum i32 {
     /**
      * Operation was successful.
      */
@@ -6060,7 +6060,7 @@ NNResultCode :: enum {
  *
  * Available since NNAPI feature level 3.
  */
-DurationCode :: enum {
+DurationCode :: enum i32 {
     // Execution time on hardware (not driver, which runs on host processor).
     DURATION_ON_HARDWARE = 0,
     // Execution time in driver (including time on hardware).  Excludes overhead
@@ -6088,7 +6088,7 @@ DurationCode :: enum {
  *
  * Available since NNAPI feature level 4.
  */
-PriorityCode :: enum {
+PriorityCode :: enum i32 {
     LOW = 90,
     MEDIUM = 100,
     HIGH = 110,

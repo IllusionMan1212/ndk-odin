@@ -511,7 +511,7 @@ Keycode :: enum {
     MANNER_MODE     = 205,
     /** 3D Mode key.
      * Toggles the display between 2D and 3D mode. */
-    3D_MODE         = 206,
+    _3D_MODE         = 206,
     /** Contacts special function key.
      * Used to launch an address book application. */
     CONTACTS        = 207,
@@ -569,9 +569,9 @@ Keycode :: enum {
      * Goes to the top of media menu. */
     MEDIA_TOP_MENU  = 226,
     /** '11' key. */
-    11              = 227,
+    KEY_11              = 227,
     /** '12' key. */
-    12              = 228,
+    KEY_12              = 228,
     /** Last Channel key.
      * Goes to the last viewed channel. */
     LAST_CHANNEL    = 229,

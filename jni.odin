@@ -74,7 +74,7 @@ JNIEnv :: ^JNINativeInterface
  * Table of interface function pointers.
  */
 JNINativeInterface :: struct {
-	reserved0: rawptr,
+    reserved0: rawptr,
     reserved1: rawptr,
     reserved2: rawptr,
     reserved3: rawptr,

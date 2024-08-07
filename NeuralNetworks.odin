@@ -18,14 +18,14 @@ foreign android {
 	 * is no longer needed.
 	 *
 	 * Available since NNAPI feature level 4.
-	 * Available since API feature level 30.
+	 * Available since API level 30.
 	 *
 	 * @param desc The {@link ANeuralNetworksMemoryDesc} to be created.
 	 *             Set to NULL if unsuccessful.
 	 *
 	 * @return ANEURALNETWORKS_NO_ERROR if successful.
 	 */
-	int ANeuralNetworksMemoryDesc_create :: proc(desc: ^^ANeuralNetworksMemoryDesc)
+	ANeuralNetworksMemoryDesc_create :: proc(desc: ^^ANeuralNetworksMemoryDesc) -> NNResultCode ---
 
 	/**
 	* Destroy a memory descriptor.
@@ -36,11 +36,12 @@ foreign android {
 	* See {@link ANeuralNetworksMemoryDesc} for information on multithreaded usage.
 	*
 	* Available since NNAPI feature level 4.
+	* Available since API level 30.
 	*
 	* @param desc The memory descriptor to be destroyed. Passing NULL is acceptable and
 	*             results in no operation.
 	*/
-	void ANeuralNetworksMemoryDesc_free(ANeuralNetworksMemoryDesc* desc) __NNAPI_INTRODUCED_IN(30);
+	ANeuralNetworksMemoryDesc_free :: proc(desc: ^ANeuralNetworksMemoryDesc) ---
 
 	/**
 	* Specify that a memory object will be playing the role of an input to an execution created from a
@@ -68,6 +69,7 @@ foreign android {
 	* See {@link ANeuralNetworksMemoryDesc} for information on multithreaded usage.
 	*
 	* Available since NNAPI feature level 4.
+	* Available since API level 30.
 	*
 	* @param desc The memory descriptor to be modified.
 	* @param compilation The compilation object. It must already have been finished by calling
@@ -84,10 +86,7 @@ foreign android {
 	*
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*/
-	int ANeuralNetworksMemoryDesc_addInputRole(ANeuralNetworksMemoryDesc* desc,
-	const ANeuralNetworksCompilation* compilation,
-	uint32_t index, float frequency)
-	__NNAPI_INTRODUCED_IN(30);
+	ANeuralNetworksMemoryDesc_addInputRole :: proc(desc: ^ANeuralNetworksMemoryDesc, compilation: ^ANeuralNetworksCompilation, index: u32, frequency: f32) -> NNResultCode ---
 
 	/**
 	* Specify that a memory object will be playing the role of an output to an execution created from a
@@ -115,6 +114,7 @@ foreign android {
 	* See {@link ANeuralNetworksMemoryDesc} for information on multithreaded usage.
 	*
 	* Available since NNAPI feature level 4.
+	* Available since API level 30.
 	*
 	* @param desc The memory descriptor to be modified.
 	* @param compilation The compilation object. It must already have been finished by calling
@@ -131,10 +131,7 @@ foreign android {
 	*
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*/
-	int ANeuralNetworksMemoryDesc_addOutputRole(ANeuralNetworksMemoryDesc* desc,
-	const ANeuralNetworksCompilation* compilation,
-	uint32_t index, float frequency)
-	__NNAPI_INTRODUCED_IN(30);
+	ANeuralNetworksMemoryDesc_addOutputRole :: proc(desc: ^ANeuralNetworksMemoryDesc, compilation: ^ANeuralNetworksCompilation, index: u32, frequency: f32) -> NNResultCode ---
 
 	/**
 	* Set the dimensional information of the memory descriptor.
@@ -151,6 +148,7 @@ foreign android {
 	* See {@link ANeuralNetworksMemoryDesc} for information on multithreaded usage.
 	*
 	* Available since NNAPI feature level 4.
+	* Available since API level 30.
 	*
 	* @param desc The memory descriptor to be modified.
 	* @param rank The number of dimensions. Must be 0 for scalars.
@@ -159,8 +157,7 @@ foreign android {
 	*
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*/
-	int ANeuralNetworksMemoryDesc_setDimensions(ANeuralNetworksMemoryDesc* desc, uint32_t rank,
-	const uint32_t* dimensions) __NNAPI_INTRODUCED_IN(30);
+	ANeuralNetworksMemoryDesc_setDimensions :: proc(desc: ^ANeuralNetworksMemoryDesc, rank: u32, dimensions: [^]u32) -> NNResultCode ---
 
 	/**
 	* Indicate that we have finished modifying a memory descriptor. Required before calling
@@ -171,12 +168,13 @@ foreign android {
 	* See {@link ANeuralNetworksMemoryDesc} for information on multithreaded usage.
 	*
 	* Available since NNAPI feature level 4.
+	* Available since API level 30.
 	*
 	* @param desc The memory descriptor to be finished.
 	*
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*/
-	int ANeuralNetworksMemoryDesc_finish(ANeuralNetworksMemoryDesc* desc) __NNAPI_INTRODUCED_IN(30);
+	ANeuralNetworksMemoryDesc_finish :: proc(desc: ^ANeuralNetworksMemoryDesc) -> NNResultCode ---
 
 	/**
 	* Creates a memory object from a memory descriptor.
@@ -222,17 +220,17 @@ foreign android {
 	* object.
 	*
 	* Available since NNAPI feature level 4.
+	* Available since API level 30.
 	*
 	* @param desc The memory descriptor.
 	* @param memory The memory object to be created.
 	*               Set to NULL if unsuccessful.
 	*
-	* @return ANEURALNETWORKS_NO_ERROR if successful; ANEURALNETWORKS_OP_FAILED if the memory is
+	* @return ANEURALNETWORKS_NO_ERROR if successful ANEURALNETWORKS_OP_FAILED if the memory is
 	*         created with unspecified dimensions or rank and it is not supported for this set of
 	*         roles.
 	*/
-	int ANeuralNetworksMemory_createFromDesc(const ANeuralNetworksMemoryDesc* desc,
-	ANeuralNetworksMemory** memory) __NNAPI_INTRODUCED_IN(30);
+	ANeuralNetworksMemory_createFromDesc :: proc(desc: ^ANeuralNetworksMemoryDesc, memory: ^^ANeuralNetworksMemory) -> NNResultCode ---
 
 	/**
 	* Copies data from one memory object to another.
@@ -264,14 +262,14 @@ foreign android {
 	* logically with data layout transformation.
 	*
 	* Available since NNAPI feature level 4.
+	* Available since API level 30.
 	*
 	* @param src The source memory object.
 	* @param dst The destination memory object.
 	*
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*/
-	int ANeuralNetworksMemory_copy(const ANeuralNetworksMemory* src, const ANeuralNetworksMemory* dst)
-	__NNAPI_INTRODUCED_IN(30);
+	ANeuralNetworksMemory_copy :: proc(src: ^ANeuralNetworksMemory, dst: ^ANeuralNetworksMemory) -> NNResultCode ---
 
 	/**
 	* Get the number of available devices.
@@ -281,8 +279,9 @@ foreign android {
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*
 	* Available since NNAPI feature level 3.
+	* Available since API level 29.
 	*/
-	int ANeuralNetworks_getDeviceCount(uint32_t* numDevices) __NNAPI_INTRODUCED_IN(29);
+	ANeuralNetworks_getDeviceCount :: proc(numDevices: ^u32) -> NNResultCode ---
 
 	/**
 	* Get the representation of the specified device.
@@ -296,9 +295,9 @@ foreign android {
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*
 	* Available since NNAPI feature level 3.
+	* Available since API level 29.
 	*/
-	int ANeuralNetworks_getDevice(uint32_t devIndex, ANeuralNetworksDevice** device)
-	__NNAPI_INTRODUCED_IN(29);
+	ANeuralNetworks_getDevice :: proc(devIndex: u32, device: ^^ANeuralNetworksDevice) -> NNResultCode ---
 
 	/**
 	* Get the name of the specified device.
@@ -316,9 +315,9 @@ foreign android {
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*
 	* Available since NNAPI feature level 3.
+	* Available since API level 29.
 	*/
-	int ANeuralNetworksDevice_getName(const ANeuralNetworksDevice* device, const char** name)
-	__NNAPI_INTRODUCED_IN(29);
+	ANeuralNetworksDevice_getName :: proc(device: ^ANeuralNetworksDevice, name: ^cstring) -> NNResultCode ---
 
 	/**
 	* Get the type of a given device.
@@ -335,9 +334,9 @@ foreign android {
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*
 	* Available since NNAPI feature level 3.
+	* Available since API level 29.
 	*/
-	int ANeuralNetworksDevice_getType(const ANeuralNetworksDevice* device, int32_t* type)
-	__NNAPI_INTRODUCED_IN(29);
+	ANeuralNetworksDevice_getType :: proc(device: ^ANeuralNetworksDevice, type: ^DeviceTypeCode) -> NNResultCode ---
 
 	/**
 	* Get the version of the driver implementation of the specified device.
@@ -365,9 +364,9 @@ foreign android {
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*
 	* Available since NNAPI feature level 3.
+	* Available since API level 29.
 	*/
-	int ANeuralNetworksDevice_getVersion(const ANeuralNetworksDevice* device, const char** version)
-	__NNAPI_INTRODUCED_IN(29);
+	ANeuralNetworksDevice_getVersion :: proc(device: ^ANeuralNetworksDevice, version: ^cstring) -> NNResultCode ---
 
 	/**
 	* Get the NNAPI feature level of the specified NNAPI device.
@@ -392,9 +391,9 @@ foreign android {
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*
 	* Available since NNAPI feature level 3.
+	* Available since API level 29.
 	*/
-	int ANeuralNetworksDevice_getFeatureLevel(const ANeuralNetworksDevice* device,
-	int64_t* featureLevel) __NNAPI_INTRODUCED_IN(29);
+	ANeuralNetworksDevice_getFeatureLevel :: proc(device: ^ANeuralNetworksDevice, featureLevel: ^FeatureLevelCode) -> NNResultCode ---
 
 	/**
 	* Wait until the device is in a live state.
@@ -409,8 +408,9 @@ foreign android {
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*
 	* Available since NNAPI feature level 4.
+	* Available since API level 30.
 	*/
-	int ANeuralNetworksDevice_wait(const ANeuralNetworksDevice* device) __NNAPI_INTRODUCED_IN(30);
+	ANeuralNetworksDevice_wait :: proc(device: ^ANeuralNetworksDevice) -> NNResultCode ---
 
 	/**
 	* Get the supported operations for a specified set of devices. If multiple devices
@@ -428,10 +428,9 @@ foreign android {
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*
 	* Available since NNAPI feature level 3.
+	* Available since API level 29.
 	*/
-	int ANeuralNetworksModel_getSupportedOperationsForDevices(
-	const ANeuralNetworksModel* model, const ANeuralNetworksDevice* const* devices,
-	uint32_t numDevices, bool* supportedOps) __NNAPI_INTRODUCED_IN(29);
+	ANeuralNetworksModel_getSupportedOperationsForDevices :: proc(model: ^ANeuralNetworksModel, devices: [^]^ANeuralNetworksDevice, numDevices: u32, supportedOps: [^]bool) -> NNResultCode ---
 
 	/**
 	* Create a {@link ANeuralNetworksCompilation} to compile the given model for a specified set
@@ -459,12 +458,9 @@ foreign android {
 	*         if the model is invalid.
 	*
 	* Available since NNAPI feature level 3.
+	* Available since API level 29.
 	*/
-	int ANeuralNetworksCompilation_createForDevices(ANeuralNetworksModel* model,
-	const ANeuralNetworksDevice* const* devices,
-	uint32_t numDevices,
-	ANeuralNetworksCompilation** compilation)
-	__NNAPI_INTRODUCED_IN(29);
+	ANeuralNetworksCompilation_createForDevices :: proc(model: ^ANeuralNetworksModel, devices: [^]^ANeuralNetworksDevice, numDevices: u32, compilation: ^^ANeuralNetworksCompilation) -> NNResultCode ---
 
 	/**
 	* Sets the compilation caching signature and the cache directory.
@@ -483,17 +479,16 @@ foreign android {
 	* @param token The token provided by the user to specify a model must be of length
 	*              ANEURALNETWORKS_BYTE_SIZE_OF_CACHE_TOKEN. The user should ensure that
 	*              the token is unique to a model within the application. The NNAPI
-	*              runtime cannot detect token collisions; a collision will result in a
+	*              runtime cannot detect token collisions a collision will result in a
 	*              failed execution or in a successful execution that produces incorrect
 	*              output values.
 	*
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*
 	* Available since NNAPI feature level 3.
+	* Available since API level 29.
 	*/
-	int ANeuralNetworksCompilation_setCaching(ANeuralNetworksCompilation* compilation,
-	const char* cacheDir, const uint8_t* token)
-	__NNAPI_INTRODUCED_IN(29);
+	ANeuralNetworksCompilation_setCaching :: proc(compilation: ^ANeuralNetworksCompilation, cacheDir: cstring, token: [^]byte) -> NNResultCode ---
 
 	/**
 	* Schedule synchronous evaluation of the execution.
@@ -527,6 +522,7 @@ foreign android {
 	* asynchronous execution with dependencies.
 	*
 	* Available since NNAPI feature level 3.
+	* Available since API level 29.
 	*
 	* @param execution The execution to be scheduled and executed.
 	*
@@ -534,7 +530,7 @@ foreign android {
 	*         ANEURALNETWORKS_UNMAPPABLE if the execution input or output memory cannot
 	*         be properly mapped.
 	*/
-	int ANeuralNetworksExecution_compute(ANeuralNetworksExecution* execution) __NNAPI_INTRODUCED_IN(29);
+	ANeuralNetworksExecution_compute :: proc(execution: ^ANeuralNetworksExecution) -> NNResultCode ---
 
 	/**
 	* Get the dimensional information of the specified output operand of the model of the
@@ -556,10 +552,9 @@ foreign android {
 	*         ANEURALNETWORKS_BAD_DATA if the index is invalid.
 	*
 	* Available since NNAPI feature level 3.
+	* Available since API level 29.
 	*/
-	int ANeuralNetworksExecution_getOutputOperandRank(ANeuralNetworksExecution* execution,
-	int32_t index, uint32_t* rank)
-	__NNAPI_INTRODUCED_IN(29);
+	ANeuralNetworksExecution_getOutputOperandRank :: proc(execution: ^ANeuralNetworksExecution, index: i32, rank: ^u32) -> NNResultCode ---
 
 	/**
 	* Get the dimensional information of the specified output operand of the model of the
@@ -582,10 +577,9 @@ foreign android {
 	*         ANEURALNETWORKS_BAD_DATA if the index is invalid or if the target is a scalar.
 	*
 	* Available since NNAPI feature level 3.
+	* Available since API level 29.
 	*/
-	int ANeuralNetworksExecution_getOutputOperandDimensions(ANeuralNetworksExecution* execution,
-	int32_t index, uint32_t* dimensions)
-	__NNAPI_INTRODUCED_IN(29);
+	ANeuralNetworksExecution_getOutputOperandDimensions :: proc(execution: ^ANeuralNetworksExecution, index: i32, dimensions: [^]u32) -> NNResultCode ---
 
 	/**
 	* Create a {@link ANeuralNetworksBurst} to apply the given compilation.
@@ -596,6 +590,7 @@ foreign android {
 	* <p>The provided compilation must outlive the burst object.</p>
 	*
 	* Available since NNAPI feature level 3.
+	* Available since API level 29.
 	*
 	* @param compilation The {@link ANeuralNetworksCompilation} to be evaluated.
 	* @param burst The newly created object or NULL if unsuccessful.
@@ -603,18 +598,18 @@ foreign android {
 	* @return ANEURALNETWORKS_NO_ERROR if successful, ANEURALNETWORKS_BAD_DATA
 	*         if the compilation is invalid.
 	*/
-	int ANeuralNetworksBurst_create(ANeuralNetworksCompilation* compilation,
-	ANeuralNetworksBurst** burst) __NNAPI_INTRODUCED_IN(29);
+	ANeuralNetworksBurst_create :: proc(compilation: ^ANeuralNetworksCompilation, burst: ^^ANeuralNetworksBurst) -> NNResultCode ---
 
 	/**
 	* Destroys the burst object.
 	*
 	* Available since NNAPI feature level 3.
+	* Available since API level 29.
 	*
 	* @param burst The burst object to be destroyed. Passing NULL is acceptable and
 	*              results in no operation.
 	*/
-	void ANeuralNetworksBurst_free(ANeuralNetworksBurst* burst) __NNAPI_INTRODUCED_IN(29);
+	ANeuralNetworksBurst_free :: proc(burst: ^ANeuralNetworksBurst) ---
 
 	/**
 	* Schedule synchronous evaluation of the execution on a burst object.
@@ -652,6 +647,7 @@ foreign android {
 	* asynchronous execution with dependencies.
 	*
 	* Available since NNAPI feature level 3.
+	* Available since API level 29.
 	*
 	* @param burst The burst object to execute on.
 	* @param execution The execution to be scheduled and executed. The execution
@@ -660,8 +656,7 @@ foreign android {
 	*
 	* @return ANEURALNETWORKS_NO_ERROR if the execution completed normally.
 	*/
-	int ANeuralNetworksExecution_burstCompute(ANeuralNetworksExecution* execution,
-	ANeuralNetworksBurst* burst) __NNAPI_INTRODUCED_IN(29);
+	ANeuralNetworksExecution_burstCompute :: proc(execution: ^ANeuralNetworksExecution, burst: ^ANeuralNetworksBurst) -> NNResultCode ---
 
 	/**
 	* Creates a shared memory object from an AHardwareBuffer handle.
@@ -687,6 +682,7 @@ foreign android {
 	* The provided AHardwareBuffer must outlive the ANeuralNetworksMemory object.
 	*
 	* Available since NNAPI feature level 3.
+	* Available since API level 29.
 	*
 	* @param ahwb The AHardwareBuffer handle.
 	* @param memory The memory object to be created.
@@ -696,11 +692,7 @@ foreign android {
 	*
 	* @see AHardwareBuffer
 	*/
-	#ifdef __ANDROID__
-	int ANeuralNetworksMemory_createFromAHardwareBuffer(const AHardwareBuffer* ahwb,
-	ANeuralNetworksMemory** memory)
-	__NNAPI_INTRODUCED_IN(29);
-	#endif  // __ANDROID__
+	ANeuralNetworksMemory_createFromAHardwareBuffer :: proc(ahwb: ^AHardwareBuffer, memory: ^^ANeuralNetworksMemory) -> NNResultCode ---
 
 	/**
 
@@ -721,14 +713,14 @@ foreign android {
 	* See {@link ANeuralNetworksExecution} for information on execution states and multithreaded usage.
 	*
 	* Available since NNAPI feature level 3.
+	* Available since API level 29.
 	*
 	* @param execution The execution to be modified.
 	* @param measure 'true' if duration is to be measured, 'false' if not.
 	*
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*/
-	int ANeuralNetworksExecution_setMeasureTiming(ANeuralNetworksExecution* execution, bool measure)
-	__NNAPI_INTRODUCED_IN(29);
+	ANeuralNetworksExecution_setMeasureTiming :: proc(execution: ^ANeuralNetworksExecution, measure: bool) -> NNResultCode ---
 
 	/**
 	* Get the time spent in the latest computation evaluated on the specified
@@ -751,10 +743,9 @@ foreign android {
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*
 	* Available since NNAPI feature level 3.
+	* Available since API level 29.
 	*/
-	int ANeuralNetworksExecution_getDuration(const ANeuralNetworksExecution* execution,
-	int32_t durationCode, uint64_t* duration)
-	__NNAPI_INTRODUCED_IN(29);
+	ANeuralNetworksExecution_getDuration :: proc(execution: ^ANeuralNetworksExecution, durationCode: DurationCode, duration: ^u64) -> NNResultCode ---
 
 	/**
 	* Creates a shared memory object from a file descriptor.
@@ -764,6 +755,7 @@ foreign android {
 	* this shared memory.
 	*
 	* Available since NNAPI feature level 1.
+	* Available since API level 27.
 	*
 	* @param size The requested size in bytes.
 	*             Must not be larger than the file size.
@@ -780,8 +772,7 @@ foreign android {
 	*
 	* @return ANEURALNETWORKS_NO_ERROR if the request completed normally.
 	*/
-	int ANeuralNetworksMemory_createFromFd(size_t size, int protect, int fd, size_t offset,
-	ANeuralNetworksMemory** memory) __NNAPI_INTRODUCED_IN(27);
+	ANeuralNetworksMemory_createFromFd :: proc(size: uint, protect: i32, fd: i32, offset: uint, memory: ^^ANeuralNetworksMemory) -> NNResultCode ---
 
 	/**
 	* Delete a memory object.
@@ -791,11 +782,12 @@ foreign android {
 	* handles to this memory.
 	*
 	* Available since NNAPI feature level 1.
+	* Available since API level 27.
 	*
 	* @param memory The memory object to be freed. Passing NULL is acceptable and
 	*               results in no operation.
 	*/
-	void ANeuralNetworksMemory_free(ANeuralNetworksMemory* memory) __NNAPI_INTRODUCED_IN(27);
+	ANeuralNetworksMemory_free :: proc(memory: ^ANeuralNetworksMemory) ---
 
 	/**
 	* Create an empty {@link ANeuralNetworksModel}.
@@ -817,13 +809,14 @@ foreign android {
 	* is no longer needed.</p>
 	*
 	* Available since NNAPI feature level 1.
+	* Available since API level 27.
 	*
 	* @param model The {@link ANeuralNetworksModel} to be created.
 	*              Set to NULL if unsuccessful.
 	*
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*/
-	int ANeuralNetworksModel_create(ANeuralNetworksModel** model) __NNAPI_INTRODUCED_IN(27);
+	ANeuralNetworksModel_create :: proc(model: ^^ANeuralNetworksModel) -> NNResultCode ---
 
 	/**
 	* Destroy a model.
@@ -834,11 +827,12 @@ foreign android {
 	* See {@link ANeuralNetworksModel} for information on multithreaded usage.
 	*
 	* Available since NNAPI feature level 1.
+	* Available since API level 27.
 	*
 	* @param model The model to be destroyed. Passing NULL is acceptable and
 	*              results in no operation.
 	*/
-	void ANeuralNetworksModel_free(ANeuralNetworksModel* model) __NNAPI_INTRODUCED_IN(27);
+	ANeuralNetworksModel_free :: proc(model: ^ANeuralNetworksModel) ---
 
 	/**
 	* Indicate that we have finished modifying a model. Required before
@@ -853,12 +847,13 @@ foreign android {
 	* See {@link ANeuralNetworksModel} for information on multithreaded usage.
 	*
 	* Available since NNAPI feature level 1.
+	* Available since API level 27.
 	*
 	* @param model The model to be finished.
 	*
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*/
-	int ANeuralNetworksModel_finish(ANeuralNetworksModel* model) __NNAPI_INTRODUCED_IN(27);
+	ANeuralNetworksModel_finish :: proc(model: ^ANeuralNetworksModel) -> NNResultCode ---
 
 	/**
 	* Add an operand to a model.
@@ -901,6 +896,7 @@ foreign android {
 	* See {@link ANeuralNetworksModel} for information on multithreaded usage.
 	*
 	* Available since NNAPI feature level 1.
+	* Available since API level 27.
 	*
 	* @param model The model to be modified.
 	* @param type The {@link ANeuralNetworksOperandType} that describes the shape
@@ -910,9 +906,7 @@ foreign android {
 	*
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*/
-	int ANeuralNetworksModel_addOperand(ANeuralNetworksModel* model,
-	const ANeuralNetworksOperandType* type)
-	__NNAPI_INTRODUCED_IN(27);
+	ANeuralNetworksModel_addOperand :: proc(model: ^ANeuralNetworksModel, type: ^ANeuralNetworksOperandType) -> NNResultCode ---
 
 	/**
 	* Sets an operand to a constant value.
@@ -941,6 +935,7 @@ foreign android {
 	* See {@link ANeuralNetworksModel} for information on multithreaded usage.
 	*
 	* Available since NNAPI feature level 1.
+	* Available since API level 27.
 	*
 	* @param model The model to be modified.
 	* @param index The index of the model operand we're setting.
@@ -949,9 +944,7 @@ foreign android {
 	*
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*/
-	int ANeuralNetworksModel_setOperandValue(ANeuralNetworksModel* model, int32_t index,
-	const void* buffer, size_t length)
-	__NNAPI_INTRODUCED_IN(27);
+	ANeuralNetworksModel_setOperandValue :: proc(model: ^ANeuralNetworksModel, index: i32, buffer: rawptr, length: uint) -> NNResultCode ---
 
 	/**
 	* Sets an operand's per channel quantization parameters.
@@ -963,6 +956,7 @@ foreign android {
 	* calling {@link ANeuralNetworksModel_finish}.
 	*
 	* Available since NNAPI feature level 3.
+	* Available since API level 29.
 	*
 	* @param model The model to be modified.
 	* @param index The index of the model operand we're setting.
@@ -972,9 +966,7 @@ foreign android {
 	*
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*/
-	int ANeuralNetworksModel_setOperandSymmPerChannelQuantParams(
-	ANeuralNetworksModel* model, int32_t index,
-	const ANeuralNetworksSymmPerChannelQuantParams* channelQuant) __NNAPI_INTRODUCED_IN(29);
+	ANeuralNetworksModel_setOperandSymmPerChannelQuantParams :: proc(model: ^ANeuralNetworksModel, index: i32, channelQuant: ^ANeuralNetworksSymmPerChannelQuantParams) -> NNResultCode ---
 
 	/**
 	* Sets an operand to a value stored in a memory object.
@@ -1004,6 +996,7 @@ foreign android {
 	* AHardwareBuffer usage.
 	*
 	* Available since NNAPI feature level 1.
+	* Available since API level 27.
 	*
 	* @param model The model to be modified.
 	* @param index The index of the model operand we're setting.
@@ -1014,10 +1007,7 @@ foreign android {
 	*
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*/
-	int ANeuralNetworksModel_setOperandValueFromMemory(ANeuralNetworksModel* model, int32_t index,
-	const ANeuralNetworksMemory* memory,
-	size_t offset, size_t length)
-	__NNAPI_INTRODUCED_IN(27);
+	ANeuralNetworksModel_setOperandValueFromMemory :: proc(model: ^ANeuralNetworksModel, index: i32, memory: ^ANeuralNetworksMemory, offset: uint, length: uint) -> NNResultCode ---
 
 	/**
 	* Sets an operand to a value that is a reference to another NNAPI model.
@@ -1037,6 +1027,7 @@ foreign android {
 	* See {@link ANeuralNetworksModel} for information on multithreaded usage.
 	*
 	* Available since NNAPI feature level 4.
+	* Available since API level 30.
 	*
 	* @param model The model to be modified.
 	* @param index The index of the model operand we're setting.
@@ -1044,9 +1035,7 @@ foreign android {
 	*
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*/
-	int ANeuralNetworksModel_setOperandValueFromModel(ANeuralNetworksModel* model, int32_t index,
-	const ANeuralNetworksModel* value)
-	__NNAPI_INTRODUCED_IN(30);
+	ANeuralNetworksModel_setOperandValueFromModel :: proc(model: ^ANeuralNetworksModel, index: i32, value: ^ANeuralNetworksModel) -> NNResultCode ---
 
 	/**
 	* Add an operation to a model.
@@ -1067,13 +1056,11 @@ foreign android {
 	* See {@link ANeuralNetworksModel} for information on multithreaded usage.
 	*
 	* Available since NNAPI feature level 1.
+	* Available since API level 27.
 	*
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*/
-	int ANeuralNetworksModel_addOperation(ANeuralNetworksModel* model,
-	ANeuralNetworksOperationType type, uint32_t inputCount,
-	const uint32_t* inputs, uint32_t outputCount,
-	const uint32_t* outputs) __NNAPI_INTRODUCED_IN(27);
+	ANeuralNetworksModel_addOperation :: proc(model: ^ANeuralNetworksModel, type: ANeuralNetworksOperationType, inputCount: u32, inputs: [^]u32, outputCount: u32, outputs: [^]u32) -> NNResultCode ---
 
 	/**
 	* Specifies which operands will be the model's inputs and
@@ -1097,12 +1084,10 @@ foreign android {
 	* See {@link ANeuralNetworksModel} for information on multithreaded usage.
 	*
 	* Available since NNAPI feature level 1.
+	* Available since API level 27.
 	*
 	*/
-	int ANeuralNetworksModel_identifyInputsAndOutputs(ANeuralNetworksModel* model, uint32_t inputCount,
-	const uint32_t* inputs, uint32_t outputCount,
-	const uint32_t* outputs)
-	__NNAPI_INTRODUCED_IN(27);
+	ANeuralNetworksModel_identifyInputsAndOutputs :: proc(model: ^ANeuralNetworksModel, inputCount: u32, inputs: [^]u32, outputCount: u32, outputs: [^]u32) -> NNResultCode ---
 
 	/**
 	* Specifies whether {@link ANEURALNETWORKS_TENSOR_FLOAT32} is allowed to be
@@ -1126,11 +1111,11 @@ foreign android {
 	* called will return an error.
 	*
 	* Available since NNAPI feature level 2.
+	* Available since API level 28.
 	*
 	* See {@link ANeuralNetworksModel} for information on multithreaded usage.
 	*/
-	int ANeuralNetworksModel_relaxComputationFloat32toFloat16(ANeuralNetworksModel* model, bool allow)
-	__NNAPI_INTRODUCED_IN(28);
+	ANeuralNetworksModel_relaxComputationFloat32toFloat16 :: proc(model: ^ANeuralNetworksModel, allow: bool) -> NNResultCode ---
 
 	/**
 	* Create a {@link ANeuralNetworksCompilation} to compile the given model.
@@ -1156,6 +1141,7 @@ foreign android {
 	* See {@link ANeuralNetworksCompilation} for information on multithreaded usage.
 	*
 	* Available since NNAPI feature level 1.
+	* Available since API level 27.
 	*
 	* @param model The {@link ANeuralNetworksModel} to be compiled.
 	* @param compilation The newly created object or NULL if unsuccessful.
@@ -1163,9 +1149,7 @@ foreign android {
 	* @return ANEURALNETWORKS_NO_ERROR if successful, ANEURALNETWORKS_BAD_DATA
 	*         if the model is invalid.
 	*/
-	int ANeuralNetworksCompilation_create(ANeuralNetworksModel* model,
-	ANeuralNetworksCompilation** compilation)
-	__NNAPI_INTRODUCED_IN(27);
+	ANeuralNetworksCompilation_create :: proc(model: ^ANeuralNetworksModel, compilation: ^^ANeuralNetworksCompilation) -> NNResultCode ---
 
 	/**
 	* Destroy a compilation.
@@ -1176,12 +1160,12 @@ foreign android {
 	* See {@link ANeuralNetworksCompilation} for information on multithreaded usage.
 	*
 	* Available since NNAPI feature level 1.
+	* Available since API level 27.
 	*
 	* @param compilation The compilation to be destroyed. Passing NULL is acceptable and
 	*                    results in no operation.
 	*/
-	void ANeuralNetworksCompilation_free(ANeuralNetworksCompilation* compilation)
-	__NNAPI_INTRODUCED_IN(27);
+	ANeuralNetworksCompilation_free :: proc(compilation: ^ANeuralNetworksCompilation) ---
 
 	/**
 	* Sets the execution preference.
@@ -1192,6 +1176,7 @@ foreign android {
 	* See {@link ANeuralNetworksCompilation} for information on multithreaded usage.
 	*
 	* Available since NNAPI feature level 1.
+	* Available since API level 27.
 	*
 	* @param compilation The compilation to be modified.
 	* @param preference Either {@link ANEURALNETWORKS_PREFER_LOW_POWER},
@@ -1200,8 +1185,7 @@ foreign android {
 	*
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*/
-	int ANeuralNetworksCompilation_setPreference(ANeuralNetworksCompilation* compilation,
-	int32_t preference) __NNAPI_INTRODUCED_IN(27);
+	ANeuralNetworksCompilation_setPreference :: proc(compilation: ^ANeuralNetworksCompilation, preference: PreferenceCode) -> NNResultCode ---
 
 	/**
 	* Indicate that we have finished modifying a compilation. Required before
@@ -1221,13 +1205,13 @@ foreign android {
 	* See {@link ANeuralNetworksCompilation} for information on multithreaded usage.
 	*
 	* Available since NNAPI feature level 1.
+	* Available since API level 27.
 	*
 	* @param compilation The compilation to be finished.
 	*
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*/
-	int ANeuralNetworksCompilation_finish(ANeuralNetworksCompilation* compilation)
-	__NNAPI_INTRODUCED_IN(27);
+	ANeuralNetworksCompilation_finish :: proc(compilation: ^ANeuralNetworksCompilation) -> NNResultCode ---
 
 	/**
 	* Set the execution priority.
@@ -1244,6 +1228,7 @@ foreign android {
 	* See {@link ANeuralNetworksCompilation} for information on multithreaded usage.
 	*
 	* Available since NNAPI feature level 4.
+	* Available since API level 30.
 	*
 	* @param compilation The compilation to be modified.
 	* @param priority The relative priority of the execution compared to other
@@ -1252,8 +1237,7 @@ foreign android {
 	*
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*/
-	int ANeuralNetworksCompilation_setPriority(ANeuralNetworksCompilation* compilation, int priority)
-	__NNAPI_INTRODUCED_IN(30);
+	ANeuralNetworksCompilation_setPriority :: proc(compilation: ^ANeuralNetworksCompilation, priority: PriorityCode) -> NNResultCode ---
 
 	/**
 	* Set the maximum expected duration for compiling the model.
@@ -1294,9 +1278,9 @@ foreign android {
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*
 	* Available since NNAPI feature level 4.
+	* Available since API level 30.
 	*/
-	int ANeuralNetworksCompilation_setTimeout(ANeuralNetworksCompilation* compilation,
-	uint64_t duration) __NNAPI_INTRODUCED_IN(30);
+	ANeuralNetworksCompilation_setTimeout :: proc(compilation: ^ANeuralNetworksCompilation, duration: u64) -> NNResultCode ---
 
 	/**
 	* Create a {@link ANeuralNetworksExecution} to apply the given compilation.
@@ -1311,6 +1295,7 @@ foreign android {
 	* See {@link ANeuralNetworksExecution} for information on multithreaded usage.
 	*
 	* Available since NNAPI feature level 1.
+	* Available since API level 27.
 	*
 	* @param compilation The {@link ANeuralNetworksCompilation} to be evaluated.
 	* @param execution The newly created object or NULL if unsuccessful.
@@ -1318,8 +1303,7 @@ foreign android {
 	* @return ANEURALNETWORKS_NO_ERROR if successful, ANEURALNETWORKS_BAD_DATA
 	*         if the compilation is invalid.
 	*/
-	int ANeuralNetworksExecution_create(ANeuralNetworksCompilation* compilation,
-	ANeuralNetworksExecution** execution) __NNAPI_INTRODUCED_IN(27);
+	ANeuralNetworksExecution_create :: proc(compilation: ^ANeuralNetworksCompilation, execution: ^^ANeuralNetworksExecution) -> NNResultCode ---
 
 	/**
 	* Destroy an execution.
@@ -1328,7 +1312,7 @@ foreign android {
 	* {@link ANeuralNetworksExecution_burstCompute},
 	* {@link ANeuralNetworksExecution_compute},
 	* {@link ANeuralNetworksExecution_startCompute} or
-	* {@link ANeuralNetworksExecution_startComputeWithDependencies}; but if it has been scheduled,
+	* {@link ANeuralNetworksExecution_startComputeWithDependencies} but if it has been scheduled,
 	* then the application must not call {@link ANeuralNetworksExecution_free}
 	* until the execution has completed (i.e.,
 	* {@link ANeuralNetworksExecution_burstCompute},
@@ -1338,11 +1322,12 @@ foreign android {
 	* See {@link ANeuralNetworksExecution} for information on multithreaded usage.
 	*
 	* Available since NNAPI feature level 1.
+	* Available since API level 27.
 	*
 	* @param execution The execution to be destroyed. Passing NULL is acceptable and
 	*                  results in no operation.
 	*/
-	void ANeuralNetworksExecution_free(ANeuralNetworksExecution* execution) __NNAPI_INTRODUCED_IN(27);
+	ANeuralNetworksExecution_free :: proc(execution: ^ANeuralNetworksExecution) ---
 
 	/**
 	* Associate a user buffer with an input of the model of the
@@ -1377,6 +1362,7 @@ foreign android {
 	* preferred buffer alignment and padding, to improve performance.
 	*
 	* Available since NNAPI feature level 1.
+	* Available since API level 27.
 	*
 	* @param execution The execution to be modified.
 	* @param index The index of the input argument we are setting. It is
@@ -1400,9 +1386,7 @@ foreign android {
 	* @return ANEURALNETWORKS_NO_ERROR if successful, ANEURALNETWORKS_BAD_DATA if the
 	*         name is not recognized or the buffer is too small for the input.
 	*/
-	int ANeuralNetworksExecution_setInput(ANeuralNetworksExecution* execution, int32_t index,
-	const ANeuralNetworksOperandType* type, const void* buffer,
-	size_t length) __NNAPI_INTRODUCED_IN(27);
+	ANeuralNetworksExecution_setInput :: proc(execution: ^ANeuralNetworksExecution, index: i32, type: ^ANeuralNetworksOperandType, buffer: rawptr, length: uint) -> NNResultCode ---
 
 	/**
 	* Associate a region of a memory object with an input of the model of the
@@ -1447,6 +1431,7 @@ foreign android {
 	* preferred memory alignment and padding, to improve performance.
 	*
 	* Available since NNAPI feature level 1.
+	* Available since API level 27.
 	*
 	* @param execution The execution to be modified.
 	* @param index The index of the input argument we are setting. It is
@@ -1470,10 +1455,7 @@ foreign android {
 	* @return ANEURALNETWORKS_NO_ERROR if successful, ANEURALNETWORKS_BAD_DATA if the
 	*         name is not recognized or the buffer is too small for the input.
 	*/
-	int ANeuralNetworksExecution_setInputFromMemory(ANeuralNetworksExecution* execution, int32_t index,
-	const ANeuralNetworksOperandType* type,
-	const ANeuralNetworksMemory* memory, size_t offset,
-	size_t length) __NNAPI_INTRODUCED_IN(27);
+	ANeuralNetworksExecution_setInputFromMemory :: proc(execution: ^ANeuralNetworksExecution, index: i32, type: ^ANeuralNetworksOperandType, memory: ^ANeuralNetworksMemory, offset: uint, length: uint) -> NNResultCode ---
 
 	/**
 	* Associate a user buffer with an output of the model of the
@@ -1507,6 +1489,7 @@ foreign android {
 	* preferred buffer alignment and padding, to improve performance.
 	*
 	* Available since NNAPI feature level 1.
+	* Available since API level 27.
 	*
 	* @param execution The execution to be modified.
 	* @param index The index of the output argument we are setting. It is
@@ -1535,9 +1518,7 @@ foreign android {
 	* @return ANEURALNETWORKS_NO_ERROR if successful, ANEURALNETWORKS_BAD_DATA if the
 	*         name is not recognized or the buffer is too small for the output.
 	*/
-	int ANeuralNetworksExecution_setOutput(ANeuralNetworksExecution* execution, int32_t index,
-	const ANeuralNetworksOperandType* type, void* buffer,
-	size_t length) __NNAPI_INTRODUCED_IN(27);
+	ANeuralNetworksExecution_setOutput :: proc(execution: ^ANeuralNetworksExecution, index: i32, type: ^ANeuralNetworksOperandType, buffer: rawptr, length: uint) -> NNResultCode ---
 
 	/**
 	* Associate a region of a memory object with an output of the model of the
@@ -1581,6 +1562,7 @@ foreign android {
 	* preferred memory alignment and padding, to improve performance.
 	*
 	* Available since NNAPI feature level 1.
+	* Available since API level 27.
 	*
 	* @param execution The execution to be modified.
 	* @param index The index of the output argument we are setting. It is
@@ -1610,10 +1592,7 @@ foreign android {
 	* @return ANEURALNETWORKS_NO_ERROR if successful, ANEURALNETWORKS_BAD_DATA if the
 	*         name is not recognized or the buffer is too small for the output.
 	*/
-	int ANeuralNetworksExecution_setOutputFromMemory(ANeuralNetworksExecution* execution, int32_t index,
-	const ANeuralNetworksOperandType* type,
-	const ANeuralNetworksMemory* memory, size_t offset,
-	size_t length) __NNAPI_INTRODUCED_IN(27);
+	ANeuralNetworksExecution_setOutputFromMemory :: proc(execution: ^ANeuralNetworksExecution, index: i32, type: ^ANeuralNetworksOperandType, memory: ^ANeuralNetworksMemory, offset: uint, length: uint) -> NNResultCode ---
 
 	/**
 	* Schedule asynchronous evaluation of the execution.
@@ -1660,6 +1639,7 @@ foreign android {
 	* asynchronous execution with dependencies.
 	*
 	* Available since NNAPI feature level 1.
+	* Available since API level 27.
 	*
 	* @param execution The execution to be scheduled and executed.
 	* @param event The event that will be signaled on completion. event is set to
@@ -1667,8 +1647,7 @@ foreign android {
 	*
 	* @return ANEURALNETWORKS_NO_ERROR if the evaluation is successfully scheduled.
 	*/
-	int ANeuralNetworksExecution_startCompute(ANeuralNetworksExecution* execution,
-	ANeuralNetworksEvent** event) __NNAPI_INTRODUCED_IN(27);
+	ANeuralNetworksExecution_startCompute :: proc(execution: ^ANeuralNetworksExecution, event: ^^ANeuralNetworksEvent) -> NNResultCode ---
 
 	/**
 	* Set the maximum expected duration of the specified execution.
@@ -1715,9 +1694,9 @@ foreign android {
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*
 	* Available since NNAPI feature level 4.
+	* Available since API level 30.
 	*/
-	int ANeuralNetworksExecution_setTimeout(ANeuralNetworksExecution* execution, uint64_t duration)
-	__NNAPI_INTRODUCED_IN(30);
+	ANeuralNetworksExecution_setTimeout :: proc(execution: ^ANeuralNetworksExecution, duration: u64) -> NNResultCode ---
 
 	/**
 	* Set the maximum duration of WHILE loops in the specified execution.
@@ -1746,9 +1725,9 @@ foreign android {
 	*         ANEURALNETWORKS_UNEXPECTED_NULL if execution is NULL.
 	*
 	* Available since NNAPI feature level 4.
+	* Available since API level 30.
 	*/
-	int ANeuralNetworksExecution_setLoopTimeout(ANeuralNetworksExecution* execution, uint64_t duration)
-	__NNAPI_INTRODUCED_IN(30);
+	ANeuralNetworksExecution_setLoopTimeout :: proc(execution: ^ANeuralNetworksExecution, duration: u64) -> NNResultCode ---
 
 	/**
 	* Get the default timeout value for WHILE loops.
@@ -1756,8 +1735,9 @@ foreign android {
 	* @return The default timeout value in nanoseconds.
 	*
 	* Available since NNAPI feature level 4.
+	* Available since API level 30.
 	*/
-	uint64_t ANeuralNetworks_getDefaultLoopTimeout() __NNAPI_INTRODUCED_IN(30);
+	ANeuralNetworks_getDefaultLoopTimeout :: proc() -> u64 ---
 
 	/**
 	* Get the maximum timeout value for WHILE loops.
@@ -1765,8 +1745,9 @@ foreign android {
 	* @return The maximum timeout value in nanoseconds.
 	*
 	* Available since NNAPI feature level 4.
+	* Available since API level 30.
 	*/
-	uint64_t ANeuralNetworks_getMaximumLoopTimeout() __NNAPI_INTRODUCED_IN(30);
+	ANeuralNetworks_getMaximumLoopTimeout :: proc() -> u64 ---
 
 	/**
 	* Waits until the execution completes.
@@ -1787,13 +1768,14 @@ foreign android {
 	* See {@link ANeuralNetworksExecution} for information on execution states and multithreaded usage.
 	*
 	* Available since NNAPI feature level 1.
+	* Available since API level 27.
 	*
 	* @param event The event that will be signaled on completion.
 	* @return ANEURALNETWORKS_NO_ERROR if the execution completed normally.
 	*         ANEURALNETWORKS_UNMAPPABLE if the execution input or output memory cannot
 	*         be properly mapped.
 	*/
-	int ANeuralNetworksEvent_wait(ANeuralNetworksEvent* event) __NNAPI_INTRODUCED_IN(27);
+	ANeuralNetworksEvent_wait :: proc(event: ^ANeuralNetworksEvent) -> NNResultCode ---
 
 	/**
 	* Destroys the event.
@@ -1801,11 +1783,12 @@ foreign android {
 	* See {@link ANeuralNetworksExecution} for information on multithreaded usage.
 	*
 	* Available since NNAPI feature level 1.
+	* Available since API level 27.
 	*
 	* @param event The event object to be destroyed. Passing NULL is acceptable and
 	*              results in no operation.
 	*/
-	void ANeuralNetworksEvent_free(ANeuralNetworksEvent* event) __NNAPI_INTRODUCED_IN(27);
+	ANeuralNetworksEvent_free :: proc(event: ^ANeuralNetworksEvent) ---
 
 	/**
 	* Create a {@link ANeuralNetworksEvent} from a sync_fence file descriptor.
@@ -1819,9 +1802,9 @@ foreign android {
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*
 	* Available since NNAPI feature level 4.
+	* Available since API level 30.
 	*/
-	int ANeuralNetworksEvent_createFromSyncFenceFd(int sync_fence_fd, ANeuralNetworksEvent** event)
-	__NNAPI_INTRODUCED_IN(30);
+	ANeuralNetworksEvent_createFromSyncFenceFd :: proc(sync_fence_fd: i32, event: ^^ANeuralNetworksEvent) -> NNResultCode ---
 
 	/**
 	* Get sync_fence file descriptor from the event.
@@ -1843,9 +1826,9 @@ foreign android {
 	* @return ANEURALNETWORKS_NO_ERROR if successful.
 	*
 	* Available since NNAPI feature level 4.
+	* Available since API level 30.
 	*/
-	int ANeuralNetworksEvent_getSyncFenceFd(const ANeuralNetworksEvent* event, int* sync_fence_fd)
-	__NNAPI_INTRODUCED_IN(30);
+	ANeuralNetworksEvent_getSyncFenceFd :: proc(event: ^ANeuralNetworksEvent, sync_fence_fd: ^i32) -> NNResultCode ---
 
 	/**
 	* Schedule asynchronous evaluation of the execution with dependencies.
@@ -1922,11 +1905,9 @@ foreign android {
 	* @return ANEURALNETWORKS_NO_ERROR if the evaluation is successfully scheduled.
 	*
 	* Available since NNAPI feature level 4.
+	* Available since API level 30.
 	*/
-	int ANeuralNetworksExecution_startComputeWithDependencies(
-	ANeuralNetworksExecution* execution, const ANeuralNetworksEvent* const* dependencies,
-	uint32_t num_dependencies, uint64_t duration, ANeuralNetworksEvent** event)
-	__NNAPI_INTRODUCED_IN(30);
+	ANeuralNetworksExecution_startComputeWithDependencies :: proc(execution: ^ANeuralNetworksExecution, dependencies: ^^ANeuralNetworksEvent, num_dependencies: u32, duration: u64, event: ^^ANeuralNetworksEvent) -> NNResultCode ---
 
 	/**
 	* Get the NNAPI runtime feature level.
@@ -1946,9 +1927,9 @@ foreign android {
 	* after NNAPI feature level 5 and API levels after S (31).
 	*
 	* Example usage:
-	* int device_api_level = android_get_device_api_level();
+	* int device_api_level = android_get_device_api_level()
 	* int64_t runtime_feature_level = (device_api_level < __ANDROID_API_S__) ?
-	*                                  device_api_level : ANeuralNetworks_getRuntimeFeatureLevel();
+	*                                  device_api_level : ANeuralNetworks_getRuntimeFeatureLevel()
 	*
 	* Runtime feature level is closely related to NNAPI device feature level
 	* ({@link ANeuralNetworksDevice_getFeatureLevel}), which indicates an NNAPI device feature level
@@ -1962,8 +1943,9 @@ foreign android {
 	* It is NOT an Android API level.
 	*
 	* Available since NNAPI feature level 5.
+	* Available since API level 31.
 	*/
-	int64_t ANeuralNetworks_getRuntimeFeatureLevel() __NNAPI_INTRODUCED_IN(31);
+	ANeuralNetworks_getRuntimeFeatureLevel :: proc() -> FeatureLevelCode ---
 
 	/**
 	* Specifies whether the {@link ANeuralNetworksExecution} is able to accept padded input and output
@@ -1998,9 +1980,9 @@ foreign android {
 	*         {@link ANeuralNetworksExecution_setOutputFromMemory} has been called on the execution.
 	*
 	* Available since NNAPI feature level 5.
+	* Available since API level 31.
 	*/
-	int ANeuralNetworksExecution_enableInputAndOutputPadding(ANeuralNetworksExecution* execution,
-	bool enable) __NNAPI_INTRODUCED_IN(31);
+	ANeuralNetworksExecution_enableInputAndOutputPadding :: proc(execution: ^ANeuralNetworksExecution, enable: bool) -> NNResultCode ---
 
 	/**
 	* Get the preferred buffer and memory alignment of an input to an execution created from a
@@ -2029,10 +2011,9 @@ foreign android {
 	*         ANEURALNETWORKS_BAD_DATA if the index is out of range.
 	*
 	* Available since NNAPI feature level 5.
+	* Available since API level 31.
 	*/
-	int ANeuralNetworksCompilation_getPreferredMemoryAlignmentForInput(
-	const ANeuralNetworksCompilation* compilation, uint32_t index, uint32_t* alignment)
-	__NNAPI_INTRODUCED_IN(31);
+	ANeuralNetworksCompilation_getPreferredMemoryAlignmentForInput :: proc(compilation: ^ANeuralNetworksCompilation, index: u32, alignment: ^u32) -> NNResultCode ---
 
 	/**
 	* Get the preferred buffer and memory end padding of an input to an execution created from a
@@ -2067,10 +2048,9 @@ foreign android {
 	*         ANEURALNETWORKS_BAD_DATA if the index is out of range.
 	*
 	* Available since NNAPI feature level 5.
+	* Available since API level 31.
 	*/
-	int ANeuralNetworksCompilation_getPreferredMemoryPaddingForInput(
-	const ANeuralNetworksCompilation* compilation, uint32_t index, uint32_t* padding)
-	__NNAPI_INTRODUCED_IN(31);
+	ANeuralNetworksCompilation_getPreferredMemoryPaddingForInput :: proc(compilation: ^ANeuralNetworksCompilation, index: u32, padding: ^u32) -> NNResultCode ---
 
 	/**
 	* Get the preferred buffer and memory alignment of an output to an execution created from a
@@ -2099,10 +2079,9 @@ foreign android {
 	*         ANEURALNETWORKS_BAD_DATA if the index is out of range.
 	*
 	* Available since NNAPI feature level 5.
+	* Available since API level 31.
 	*/
-	int ANeuralNetworksCompilation_getPreferredMemoryAlignmentForOutput(
-	const ANeuralNetworksCompilation* compilation, uint32_t index, uint32_t* alignment)
-	__NNAPI_INTRODUCED_IN(31);
+	ANeuralNetworksCompilation_getPreferredMemoryAlignmentForOutput :: proc(compilation: ^ANeuralNetworksCompilation, index: u32, alignment: ^u32) -> NNResultCode ---
 
 	/**
 	* Get the preferred memory end padding of an output to an execution created from a particular
@@ -2137,10 +2116,9 @@ foreign android {
 	*         ANEURALNETWORKS_BAD_DATA if the index is out of range.
 	*
 	* Available since NNAPI feature level 5.
+	* Available since API level 31.
 	*/
-	int ANeuralNetworksCompilation_getPreferredMemoryPaddingForOutput(
-	const ANeuralNetworksCompilation* compilation, uint32_t index, uint32_t* padding)
-	__NNAPI_INTRODUCED_IN(31);
+	ANeuralNetworksCompilation_getPreferredMemoryPaddingForOutput :: proc(compilation: ^ANeuralNetworksCompilation, index: u32, padding: ^u32) -> NNResultCode ---
 
 	/**
 	* Specifies whether the {@link ANeuralNetworksExecution} can be reused for multiple computations.
@@ -2166,7 +2144,7 @@ foreign android {
 	*         ANEURALNETWORKS_BAD_STATE if the execution is not in the preparation state.
 	*
 	* Available since NNAPI feature level 5.
+	* Available since API level 31.
 	*/
-	int ANeuralNetworksExecution_setReusable(ANeuralNetworksExecution* execution, bool reusable)
-	__NNAPI_INTRODUCED_IN(31);
+	ANeuralNetworksExecution_setReusable :: proc(execution: ^ANeuralNetworksExecution, reusable: bool) -> NNResultCode ---
 }

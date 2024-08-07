@@ -256,9 +256,7 @@ foreign android {
 	* *any* thread it will send a message to the main thread of the process
 	* where the Java finish call will take place.
 	*/
-	// TODO: wtf is format here ?? is there an enum or constants for this proc?
-	// I think this might be AHardwareBuffer_Format, but annoyingly so, it's u32 while this proc requires i32.
-	ANativeActivity_setWindowFormat :: proc(activity: ^ANativeActivity, format: i32) ---
+	ANativeActivity_setWindowFormat :: proc(activity: ^ANativeActivity, format: AHardwareBuffer_Format) ---
 
 	/**
 	* Change the window flags of the given activity.  Calls getWindow().setFlags()

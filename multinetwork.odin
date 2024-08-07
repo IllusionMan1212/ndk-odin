@@ -14,7 +14,28 @@ foreign import android "system:android"
  */
 net_handle_t :: distinct u64 
 
+// TODO: these should probably be put in android's libc bindings or something
 uid_t :: u32
+socklen_t :: u32 // See: https://android.googlesource.com/platform/bionic/+/main/docs/32-bit-abi.md
+sa_family_t :: u16
+
+#assert(size_of(sockaddr) == 16)
+sockaddr :: struct {
+	sa_family: sa_family_t,
+	sa_data: [14]byte,
+}
+
+addrinfo :: struct {
+	ai_flags: i32,	/* AI_PASSIVE, AI_CANONNAME, AI_NUMERICHOST */
+	ai_family: i32,	/* PF_xxx */
+	ai_socktype: i32,	/* SOCK_xxx */
+	ai_protocol: i32,	/* 0 or IPPROTO_xxx for IPv4 and IPv6 */
+	ai_addrlen: socklen_t,	/* length of ai_addr */
+	ai_canonname: cstring,	/* canonical name for hostname */
+	ai_addr: ^sockaddr,	/* binary address */
+	ai_next: ^addrinfo,	/* next structure in linked list */
+}
+
 
 /**
  * The value NETWORK_UNSPECIFIED indicates no specific network.

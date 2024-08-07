@@ -147,27 +147,6 @@ AImageDecoderBlendOp :: enum i32 {
 	SRC_OVER = 2,
 }
 
-ResultOrRepeatCount :: union {
-	AImageDecoderResult,
-	AImageDecoderRepeatCount,
-	i32,
-}
-
-ResultOrFrameDuration :: union {
-	AImageDecoderResult,
-	i64,
-}
-
-ResultOrFrameDisposalOp :: union {
-	AImageDecoderResult,
-	AImageDecoderFrameDisposalOp,
-}
-
-ResultOrBlendOp :: union {
-	AImageDecoderResult,
-	AImageDecoderBlendOp,
-}
-
 /**
  * Opaque handle for decoding images.
  *
@@ -737,7 +716,7 @@ foreign android {
 	* - {@link ANDROID_IMAGE_DECODER_BAD_PARAMETER}: The AImageDecoder
 	*   is null.
 	*/
-	AImageDecoder_getRepeatCount :: proc(decoder: ^AImageDecoder) -> ResultOrRepeatCount ---
+	AImageDecoder_getRepeatCount :: proc(decoder: ^AImageDecoder) -> i32 ---
 
 	/**
 	* Advance to the next frame in the animation.
@@ -864,7 +843,7 @@ foreign android {
 	* Errors:
 	* - returns {@link ANDROID_IMAGE_DECODER_BAD_PARAMETER} if |info| is null.
 	*/
-	AImageDecoderFrameInfo_getDuration :: proc(info: ^AImageDecoderFrameInfo) -> ResultOrFrameDuration ---
+	AImageDecoderFrameInfo_getDuration :: proc(info: ^AImageDecoderFrameInfo) -> i64 ---
 
 	/**
 	* The rectangle of the image (within 0, 0,
@@ -936,7 +915,7 @@ foreign android {
 	* Errors:
 	* - {@link ANDROID_IMAGE_DECODER_BAD_PARAMETER} if |info| is null.
 	*/
-	AImageDecoderFrameInfo_getDisposeOp :: proc(info: ^AImageDecoderFrameInfo) -> ResultOrFrameDisposalOp ---
+	AImageDecoderFrameInfo_getDisposeOp :: proc(info: ^AImageDecoderFrameInfo) -> i32 ---
 
 	/**
 	* Return how this frame is blended with the previous frame.
@@ -954,7 +933,7 @@ foreign android {
 	* Errors:
 	* - {@link ANDROID_IMAGE_DECODER_BAD_PARAMETER} if |info| is null.
 	*/
-	AImageDecoderFrameInfo_getBlendOp :: proc(info: ^AImageDecoderFrameInfo) -> ResultOrBlendOp ---
+	AImageDecoderFrameInfo_getBlendOp :: proc(info: ^AImageDecoderFrameInfo) -> i32 ---
 
 	/**
 	* Whether to have AImageDecoder store the frame prior to a
