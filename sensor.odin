@@ -48,6 +48,11 @@ SensorType :: enum i32 {
      *  field in the X, Y and Z axis.
      */
     MAGNETIC_FIELD      = 2,
+
+	/* Deprecated in API level 15
+	 * This isn't defined in the NDK but the procedures report it as a valid sensor and can work with it.
+	 */
+	ORIENTATION         = 3,
     /**
      * {@link ASENSOR_TYPE_GYROSCOPE}
      * reporting-mode: continuous
@@ -69,6 +74,11 @@ SensorType :: enum i32 {
      * The pressure sensor value is returned in hPa (millibar).
      */
     PRESSURE            = 6,
+
+	/* Deprecated in API level 15. Use AMBIENT_TEMPERATURE instead.
+	 * This isn't defined in the NDK but the procedures report it as a valid sensor and can work with it.
+	 */
+	TEMPERATURE         = 7,
     /**
      * {@link ASENSOR_TYPE_PROXIMITY}
      * reporting-mode: on-change
@@ -381,8 +391,6 @@ ASensorVector :: struct {
     reserved: [3]u8,
 }
 
-// TODO: sensor might be SensorType here, will need some code to confirm though.
-// Not sure what "what" is, maybe code will confirm this too.
 AMetaDataEvent :: struct {
 	what: i32,
     sensor: i32,

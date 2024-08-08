@@ -122,7 +122,6 @@ android_poll_source :: struct {
 
     // Function to call to perform the standard processing of data from
     // this source.
-    //void (*process)(struct android_app* app, struct android_poll_source* source),
     process: #type proc "c" (app: ^android_app, source: ^android_poll_source),
 }
 
