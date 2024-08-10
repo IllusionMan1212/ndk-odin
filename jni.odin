@@ -3,6 +3,23 @@ package android
 
 import "core:c"
 
+JNI_VERSION_1_1 :: 0x00010001
+JNI_VERSION_1_2 :: 0x00010002
+JNI_VERSION_1_4 :: 0x00010004
+JNI_VERSION_1_6 :: 0x00010006
+
+JNI_OK         :: (0)         /* no error */
+JNI_ERR        :: (-1)        /* generic error */
+JNI_EDETACHED  :: (-2)        /* thread detached from the VM */
+JNI_EVERSION   :: (-3)        /* JNI version error */
+JNI_ENOMEM     :: (-4)        /* Out of memory */
+JNI_EEXIST     :: (-5)        /* VM already created */
+JNI_EINVAL     :: (-6)        /* Invalid argument */
+
+JNI_COMMIT     :: 1           /* copy content, do not free buffer */
+JNI_ABORT      :: 2           /* free buffer w/o copying back */
+
+
 /* Primitive types that match up with Java equivalents. */
 jboolean :: c.uint8_t  /* unsigned 8 bits */
 jbyte    :: c.int8_t   /* signed 8 bits */
@@ -359,9 +376,12 @@ JNIInvokeInterface :: struct {
     reserved1: rawptr,
     reserved2: rawptr,
 
+	// NOTE: same here with JNIEnv. The two occurances of ^^^JNINativeInterface are originally ^^JNIEnv but
+	// that seems to trigger some sort of race bug in the compiler where it thinks ^^JNIEnv is an invalid type
+	// and throws a 'Invalid type usage "^^JNIEnv"'
     DestroyJavaVM: #type proc "c" (vm: ^^JNIInvokeInterface) -> jint,
-    AttachCurrentThread: #type proc "c" (vm: ^^JNIInvokeInterface, p_env: ^^JNIEnv, thr_args: rawptr) -> jint,
+    AttachCurrentThread: #type proc "c" (vm: ^^JNIInvokeInterface, p_env: ^^^JNINativeInterface, thr_args: rawptr) -> jint,
     DetachCurrentThread: #type proc "c" (vm: ^^JNIInvokeInterface) -> jint,
     GetEnv: #type proc "c" (vm: ^^JNIInvokeInterface, env: ^rawptr, version: jint) -> jint,
-    AttachCurrentThreadAsDaemon: #type proc "c" (vm: ^^JNIInvokeInterface, p_env: ^^JNIEnv, thr_args: ^rawptr) -> jint,
+    AttachCurrentThreadAsDaemon: #type proc "c" (vm: ^^JNIInvokeInterface, p_env: ^^^JNINativeInterface, thr_args: ^rawptr) -> jint,
 }
