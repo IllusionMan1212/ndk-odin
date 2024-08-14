@@ -175,24 +175,7 @@ KeyEventFlagsBits :: enum {
 
 KeyEventFlags :: bit_set[KeyEventFlagsBits]
 
-/**
- * Bit shift for the action bits holding the pointer index as
- * defined by #AMOTION_EVENT_ACTION_POINTER_INDEX_MASK.
- */
-AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT :: 8
-
-MotionEventAction :: enum i32 {
-    /** Bit mask of the parts of the action code that are the action itself. */
-    MASK = 0xff,
-
-    /**
-     * Bits in the action code that represent a pointer index, used with
-     * #AMOTION_EVENT_ACTION_POINTER_DOWN and AMOTION_EVENT_ACTION_POINTER_UP.  Shifting
-     * down by #AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT provides the actual pointer
-     * index where the data for the pointer going up or down can be found.
-     */
-    INDEX_MASK  = 0xff00,
-
+MotionEventActionEnum :: enum u8 {
     /** A pressed gesture has started, the motion contains the initial starting location. */
     DOWN = 0,
 
@@ -262,6 +245,12 @@ MotionEventAction :: enum i32 {
 
     /* One or more buttons have been released. */
     BUTTON_RELEASE = 12,
+}
+
+MotionEventAction :: bit_field i32 {
+	reserved: i16 | 16,
+	pointer_index: u8 | 8,
+	action: MotionEventActionEnum | 8,
 }
 
 /**
@@ -728,39 +717,61 @@ AMotionClassification :: enum i32 {
  * Refer to the documentation on android.view.InputDevice for more details about input sources
  * and their correct interpretation.
  */
-InputSourceClass :: enum i32 {
-    NONE = 0x00000000,
-    BUTTON = 0x00000001,
-    POINTER = 0x00000002,
-    NAVIGATION = 0x00000004,
-    POSITION = 0x00000008,
-    JOYSTICK = 0x00000010,
-	MASK = 0x000000ff,
+InputSourceClassBits :: enum i32 {
+    BUTTON = 0,
+    POINTER = 1,
+    NAVIGATION = 2,
+    POSITION = 3,
+    JOYSTICK = 4,
 }
+InputSourceClass :: bit_set[InputSourceClassBits; i32]
 
 /**
  * Input sources.
  */
-InputSource :: enum i32 {
-    UNKNOWN = 0x00000000,
+InputSourceDeviceBits :: enum i32 {
+    KEYBOARD = 8, // BUTTON
+    DPAD = 9, // BUTTON
+    GAMEPAD = 10, // BUTTON
+    TOUCHSCREEN = 12, // POINTER
+    MOUSE = 13, // POINTER
+    STYLUS = 14, // POINTER
+	// This activates both bit 14 and 15 but doing 15 only is fine too.
+	BLUETOOTH_STYLUS = 15, // POINTER
+    TRACKBALL = 16, // NAVIGATION
+    MOUSE_RELATIVE = 17, // NAVIGATION
+    TOUCHPAD = 20, // POSITION
+    TOUCH_NAVIGATION = 21, // NONE
+    ROTARY_ENCODER = 22, // NONE
+    JOYSTICK = 24, // JOYSTICK
+    HDMI = 25, // BUTTON
+    SENSOR = 26, // NONE
+}
+InputSourceDevice :: bit_set[InputSourceDeviceBits; i32]
 
-    KEYBOARD = 0x00000100 | i32(InputSourceClass.BUTTON),
-    DPAD = 0x00000200 | i32(InputSourceClass.BUTTON),
-    GAMEPAD = 0x00000400 | i32(InputSourceClass.BUTTON),
-    TOUCHSCREEN = 0x00001000 | i32(InputSourceClass.POINTER),
-    MOUSE = 0x00002000 | i32(InputSourceClass.POINTER),
-    STYLUS = 0x00004000 | i32(InputSourceClass.POINTER),
-    BLUETOOTH_STYLUS = 0x00008000 | STYLUS,
-    TRACKBALL = 0x00010000 | i32(InputSourceClass.NAVIGATION),
-    MOUSE_RELATIVE = 0x00020000 | i32(InputSourceClass.NAVIGATION),
-    TOUCHPAD = 0x00100000 | i32(InputSourceClass.POSITION),
-    TOUCH_NAVIGATION = 0x00200000 | i32(InputSourceClass.NONE),
-    JOYSTICK = 0x01000000 | i32(InputSourceClass.JOYSTICK),
-    HDMI = 0x02000000 | i32(InputSourceClass.BUTTON),
-    SENSOR = 0x04000000 | i32(InputSourceClass.NONE),
-    ROTARY_ENCODER = 0x00400000 | i32(InputSourceClass.NONE),
+InputSource :: bit_field i32 {
+	// Transmute to InputSourceDevice
+	device: i32 | 24,
+	// Transmute to InputSourceClass
+	class: i32 | 8,
+}
 
-    ANY = -256, // 0xffffff00
+ANY_INPUT_SOURCE :: InputSourceDevice{ // -256 or 0xffffff00
+	.KEYBOARD,
+	.DPAD,
+	.GAMEPAD,
+	.TOUCHSCREEN,
+	.MOUSE,
+	.STYLUS,
+	.BLUETOOTH_STYLUS,
+	.TRACKBALL,
+	.MOUSE_RELATIVE,
+	.TOUCHPAD,
+	.TOUCH_NAVIGATION,
+	.JOYSTICK,
+	.HDMI,
+	.SENSOR,
+	.ROTARY_ENCODER,
 }
 
 /**
@@ -852,7 +863,7 @@ foreign android {
 	* Get the key code of the key event.
 	* This is the physical key that was pressed, not the Unicode character.
 	*/
-	AKeyEvent_getKeyCode :: proc(key_event: ^AInputEvent) -> i32 ---
+	AKeyEvent_getKeyCode :: proc(key_event: ^AInputEvent) -> Keycode ---
 
 	/**
 	* Get the hardware key id of this key event.

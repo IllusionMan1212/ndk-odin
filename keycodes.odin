@@ -1,7 +1,7 @@
 //+build android
 package android
 
-Keycode :: enum {
+Keycode :: enum i32 {
     /** Unknown key code. */
     UNKNOWN         = 0,
     /** Soft Left key.
