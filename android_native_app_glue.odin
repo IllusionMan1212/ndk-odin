@@ -176,6 +176,7 @@ android_app :: struct {
 
     // This is non-zero when the application's NativeActivity is being
     // destroyed and waiting for the app thread to complete.
+    // The android_main function must return to its caller if this is non-zero.
     destroyRequested: c.int,
 
     // -------------------------------------------------

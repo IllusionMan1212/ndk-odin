@@ -247,10 +247,15 @@ MotionEventActionEnum :: enum u8 {
     BUTTON_RELEASE = 12,
 }
 
+// 0xRRRRIIAA
+// R = reserved
+// I = pointer index
+// A = action
+// Odin parses the bit_fields as LSB
 MotionEventAction :: bit_field i32 {
-	reserved: i16 | 16,
-	pointer_index: u8 | 8,
 	action: MotionEventActionEnum | 8,
+	pointer_index: u8 | 8,
+	reserved: i16 | 16,
 }
 
 /**
@@ -730,30 +735,33 @@ InputSourceClass :: bit_set[InputSourceClassBits; i32]
  * Input sources.
  */
 InputSourceDeviceBits :: enum i32 {
-    KEYBOARD = 8, // BUTTON
-    DPAD = 9, // BUTTON
-    GAMEPAD = 10, // BUTTON
-    TOUCHSCREEN = 12, // POINTER
-    MOUSE = 13, // POINTER
-    STYLUS = 14, // POINTER
-	// This activates both bit 14 and 15 but doing 15 only is fine too.
-	BLUETOOTH_STYLUS = 15, // POINTER
-    TRACKBALL = 16, // NAVIGATION
-    MOUSE_RELATIVE = 17, // NAVIGATION
-    TOUCHPAD = 20, // POSITION
-    TOUCH_NAVIGATION = 21, // NONE
-    ROTARY_ENCODER = 22, // NONE
-    JOYSTICK = 24, // JOYSTICK
-    HDMI = 25, // BUTTON
-    SENSOR = 26, // NONE
+    KEYBOARD = 0, // BUTTON
+    DPAD = 1, // BUTTON
+    GAMEPAD = 2, // BUTTON
+    TOUCHSCREEN = 4, // POINTER
+    MOUSE = 5, // POINTER
+    STYLUS = 6, // POINTER
+    // This activates both bit 6 and 7 but doing 7 only is fine too.
+    BLUETOOTH_STYLUS = 7, // POINTER
+    TRACKBALL = 8, // NAVIGATION
+    MOUSE_RELATIVE = 9, // NAVIGATION
+    TOUCHPAD = 12, // POSITION
+    TOUCH_NAVIGATION = 13, // NONE
+    ROTARY_ENCODER = 14, // NONE
+    JOYSTICK = 16, // JOYSTICK
+    HDMI = 17, // BUTTON
+    SENSOR = 18, // NONE
 }
 InputSourceDevice :: bit_set[InputSourceDeviceBits; i32]
 
+// 0xDDDDDDCC
+// D = Device
+// C = Class
 InputSource :: bit_field i32 {
-	// Transmute to InputSourceDevice
-	device: i32 | 24,
 	// Transmute to InputSourceClass
 	class: i32 | 8,
+	// Transmute to InputSourceDevice
+	device: i32 | 24,
 }
 
 ANY_INPUT_SOURCE :: InputSourceDevice{ // -256 or 0xffffff00
