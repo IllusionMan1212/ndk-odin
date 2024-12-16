@@ -1,4 +1,3 @@
-//+build android
 package aaudio
 
 foreign import aaudio "system:aaudio"

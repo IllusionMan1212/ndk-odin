@@ -1,8 +1,7 @@
-//+build android
 package android
 
 import "core:c"
-import "core:sys/unix"
+import "core:sys/posix"
 
 foreign import android "system:android"
 
@@ -182,13 +181,13 @@ android_app :: struct {
     // -------------------------------------------------
     // Below are "private" implementation of the glue code.
 
-    mutex: unix.pthread_mutex_t,
-    cond: unix.pthread_cond_t,
+    mutex: posix.pthread_mutex_t,
+    cond: posix.pthread_cond_t,
 
     msgread: c.int,
     msgwrite: c.int,
 
-    thread: unix.pthread_t,
+    thread: posix.pthread_t,
 
     cmdPollSource: android_poll_source,
     inputPollSource: android_poll_source,

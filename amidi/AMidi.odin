@@ -1,4 +1,3 @@
-//+build android
 package amidi
 
 foreign import amidi "system:amidi"

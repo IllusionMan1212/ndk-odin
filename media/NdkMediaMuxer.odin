@@ -1,4 +1,3 @@
-//+build android
 package mediandk
 
 foreign import mediandk "system:mediandk"

@@ -1,4 +1,3 @@
-//+build android
 package android
 
 import "core:c"
@@ -283,7 +282,7 @@ JNINativeInterface :: struct {
     GetStringLength: #type proc "c" (jni: ^^JNINativeInterface, str: jstring) -> jsize,
 	GetStringChars: #type proc "c" (jni: ^^JNINativeInterface, str: jstring, isCopy: ^jboolean) -> [^]jchar,
     ReleaseStringChars: #type proc "c" (jni: ^^JNINativeInterface, str: jstring, chars: [^]jchar),
-    NewStringUTF: #type proc "c" (jni: ^^JNINativeInterface, bytes: [^]c.char) -> jstring,
+    NewStringUTF: #type proc "c" (jni: ^^JNINativeInterface, bytes: cstring) -> jstring,
     GetStringUTFLength: #type proc "c" (jni: ^^JNINativeInterface, str: jstring) -> jsize,
     /* JNI spec says this returns const jbyte*, but that's inconsistent */
     GetStringUTFChars: #type proc "c" (jni: ^^JNINativeInterface, str: jstring, isCopy: ^jboolean) -> cstring,

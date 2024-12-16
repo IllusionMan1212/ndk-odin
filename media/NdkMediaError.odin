@@ -1,4 +1,3 @@
-//+build android
 package mediandk
 
 /**

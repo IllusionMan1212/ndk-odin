@@ -1,4 +1,3 @@
-//+build android
 package camerandk
 
 foreign import camerandk "system:camera2ndk"
